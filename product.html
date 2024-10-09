@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .product-details {
+            position: relative;
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .product-details:hover {
+            background-color: #f9f9f9;
+        }
+        .discount-info {
+            display: none;
+            color: red;
+            font-weight: bold;
+        }
+        img {
+            max-width: 100px;
+            height: auto;
+            display: block;
+            margin: auto;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Product Details</h1>
+        <div class="product-details">
+            <h2><%= product.title %></h2>
+            <p><%= product.description %></p>
+            <p>Price: <span class="original-price"><%= product.price %></span> SAR</p>
+            <p class="discount-info">Discounted Price: <span class="discounted-price"></span> SAR</p>
+            <img src="images/<%= product.image %>" alt="<%= product.title %>">
+        </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $(".product-details").hover(
+                function() {
+                    var originalPriceText = $(this).find(".original-price").text();
+                    var originalPrice = parseFloat(originalPriceText);
+                    var discountedPrice = (originalPrice * 0.9).toFixed(2);
+                    $(this).find(".discounted-price").text(discountedPrice);
+                    $(this).find(".discount-info").show();
+                },
+                function() {
+                    $(this).find(".discount-info").hide();
+                }
+            );
+        });
+    </script>
+</body>
+</html>

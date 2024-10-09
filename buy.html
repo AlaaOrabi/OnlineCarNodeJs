@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add your custom CSS file if needed -->
+    <style>
+        /* Add your custom CSS styles here */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Buy</h1>
+        <div class="row">
+            <!-- Buy Div -->
+            <div class="col-md-6">
+                <form id="buyForm">
+                    <div class="form-group">
+                        <label for="paymentOptions">Payment Options:</label><br>
+                        <input type="radio" id="paymentOption1" name="paymentOptions" value="Visa" checked>
+                        <label for="paymentOption1">Visa</label><br>
+                        <input type="radio" id="paymentOption2" name="paymentOptions" value="Paypal">
+                        <label for="paymentOption2">Paypal</label><br>
+                        <!-- Add more radio buttons as needed -->
+                    </div>
+                    <div class="form-group">
+                        <label for="total">Total:</label>
+                        <div id="totalValue"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="note">Note:</label>
+                        <textarea id="note" name="note" rows="3" class="form-control"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </form>
+            </div>
+
+            <!-- Video Div -->
+            <div class="col-md-6">
+                <h2>Video</h2>
+                <!-- Embed the video here -->
+                <iframe src="purchase.mp4" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include SweetAlert library -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the total value from localStorage
+            const totalValue = localStorage.getItem('total');
+
+            // Display the total value in the totalValue div
+            document.getElementById('totalValue').textContent = totalValue;
+
+            // Handle form submission
+            document.getElementById('buyForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                // Display a confirmation box
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: `Total Pay: ${totalValue}\nPayment Type: ${document.querySelector('input[name="paymentOptions"]:checked').value}\nNote: ${document.getElementById('note').value}`,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Redirect to the createOrder route
+                        window.location.href = '/createOrder';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

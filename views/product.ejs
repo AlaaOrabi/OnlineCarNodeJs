@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+            font-weight: normal;
+        }
+        tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+        img {
+            width: 100px;
+            height: 100px;
+            display: block;
+            margin: auto;
+        }
+        .product-image {
+            width: 100px;
+            height: 100px;
+            display: block;
+            margin: auto;
+        }
+        .discount-info {
+            display: none;
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Product Details</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% products.forEach(function(product) { %>
+                    <tr class="product-details">
+                        <td><%= product.title %></td>
+                        <td><%= product.description %></td>
+                        <td>
+                            <span class="original-price"><%= product.price %></span> SAR
+                            <div class="discount-info">Discounted Price (10%): <span class="discounted-price"></span> SAR</div>
+                        </td>
+                        <td><img src="images/<%= product.image %>" alt="<%= product.title %>"></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $(".product-details").hover(
+                function() {
+                    var originalPriceText = $(this).find(".original-price").text();
+                    var originalPrice = parseFloat(originalPriceText);
+                    var discountedPrice = (originalPrice * 0.9).toFixed(2);
+                    $(this).find(".discounted-price").text(discountedPrice);
+                    $(this).find(".discount-info").show();
+                },
+                function() {
+                    $(this).find(".discount-info").hide();
+                }
+            );
+        });
+    </script>
+</body>
+</html>

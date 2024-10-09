@@ -1,0 +1,20 @@
+body {
+   
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form {
+    background-color: rgba(255, 255, 255, 0.8); /* Set the background color with alpha value */
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.form-check-label {
+    padding-left: 0;
+}

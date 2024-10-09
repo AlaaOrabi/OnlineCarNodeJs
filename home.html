@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css"> <!-- Your custom CSS file -->
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Welcome <span id="username"></span></h1>
+        <div class="navbar">
+		<a href="#"><img src="logo.png" alt="logo" style="width: 100px;">
+            
+            <a href="/home.html">Home</a>
+            <a href="/product.html">Our Products</a>
+            <a href="/search.html">Search Product</a>
+            <a href="/buy.html">Buy</a>
+            <a href="/cart.html">My Cart</a>
+            <a href="/logout.html" id="logoutLink" class="logout">Logout</a>
+        </div>
+        <!-- Carousel Image Slider -->
+   
+
+        <!-- Jumbotron Div -->
+        <div class="jumbotron">
+            <h2>YallaMotor</h2>
+            <p>New Cars, Used Cars, Car reviews in KSA</p>
+        </div>
+
+       
+
+
+        <!-- Footer section -->
+         <!-- Footer section -->
+        <footer class="mt-5">
+            <div class="row">
+                <div class="col-md-6">
+                    <!-- Contact information -->
+                    <h4>Contact Us</h4>
+                    <p>Email: yalla@gmail.com</p>
+                    <!-- Add Facebook and Instagram icons -->
+                    <p>Facebook: <a href="https://facebook.com"><img src="face.png" alt="Facebook" style="width: 20px;"></a></p>
+                    <p>Instagram: <a href="https://instagram.com"><img src="instagram.png" alt="Instagram" style="width: 20px;"></a></p>
+                    <!-- Add more contact information as needed -->
+                </div>
+                <div class="col-md-6">
+                    <!-- Company Google Map Location -->
+                    <h4>Location</h4>
+                    <!-- Add Google Map iframe or other map details here -->
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14477.489512746355!2d39.60083174663063!3d24.48025019967206!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15cfbd0386c3dfbf%3A0xb2a97a1a8f1a238e!2sAl%20Haram%2C%20Al%20Madina%20Al%20Munawarah%20Province%2C%20Saudi%20Arabia!5e0!3m2!1sen!2s!4v1624483498219!5m2!1sen!2s" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </footer>
+    </div>
+	 <script>
+     
+    // Fetch the username from the server
+    fetch('/getUsername')
+        .then(response => response.json())
+        .then(data => {
+            // Update the content of the <span> element with the received username
+            document.getElementById('username').textContent = data;
+        })
+        .catch(error => {
+            console.error('Error fetching username:', error);
+        });
+		// Add an event listener to the logout button
+  document.getElementById('logoutLink').addEventListener('click', function(event) {
+    // Prevent the default link behavior (optional)
+    event.preventDefault();
+    
+    // Send a logout request to the server
+    fetch('/logout', {
+        method: 'GET'
+    })
+    .then(response => {
+        // Redirect to the login page after logout
+        window.location.href = '/login.html';
+    })
+    .catch(error => {
+        console.error('Logout error:', error);
+        // Handle any errors if necessary
+    });
+});
+
+</script>
+    
+</body>
+</html>

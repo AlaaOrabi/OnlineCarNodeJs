@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shopping Cart</title>
+    <style>
+        /* CSS styles for the price label */
+        #priceLabel {
+            color: #333; /* Set font color */
+            font-size: 16px; /* Set font size */
+            margin-top: 10px; /* Adjust margin from the top */
+        }
+    </style>
+</head>
+<body>
+    <h1>Shopping Cart</h1>
+    Customer Number: <input type='text' id='cnm'><br><br>
+    Enter Car Name: <input type="text" id="tt" onchange="getprice()">
+    Price: <label id="priceLabel"></label><br><br>
+    Enter Quantity: <input type="number" id="num" size="5">
+    <button onclick="add()">Buy</button>
+
+    <div id="res"></div>
+    <br>
+    <table border="1" id="tbl"></table>
+    <button onclick="checkout()">Check out</button>
+
+    <script>
+        let cartItems = [];
+    async function getprice() {
+    const title = document.getElementById('tt').value;
+    try {
+        const response = await fetch(`http://127.0.0.1:3306/process_detail?title=${title}`);
+        const data = await response.json();
+        document.getElementById('priceLabel').innerHTML = data.price;
+    } catch (error) {
+        console.error('Error fetching price:', error);
+    }
+}
+        function add() {
+            const item = { name: tt.value, price: document.getElementById('priceLabel').innerHTML, quant: num.value };
+            cartItems.push(item);
+            display();
+            tt.value = ""; num.value = "";
+        }
+    
+
+
+
+        function display() {
+            let tableContent = "<tr><th>Name</th><th>Price</th><th>Quantity</th><th></th></tr>";
+            cartItems.forEach(item => {
+                tableContent += `<tr><td>${item.name}</td><td>${item.price}</td><td>${item.quant}</td><td><button class='btn btn-info' onclick="del('${item.name}')">Delete</button></td></tr>`;
+            });
+            document.getElementById("tbl").innerHTML = tableContent;
+        }
+
+        function del(name) {
+            cartItems = cartItems.filter(item => item.name !== name);
+            display();
+        }
+
+        async function checkout() {
+            const cn = document.getElementById("cnm").value;
+            const order = { customer: cn, itemlines: cartItems };
+            const options = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(order)
+            };
+            const response = await fetch("http://127.0.0.1:8080/process_cart", options);
+            const myText = await response.text();
+            document.getElementById("res").innerHTML = myText;
+            document.getElementById("cnm").value = "";
+            document.getElementById("tbl").innerHTML = "";
+        }
+    </script>
+</body>
+</html>
